@@ -1,0 +1,22 @@
+# Config file for automatic testing at travis-ci.org
+
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
+install:
+  - "pip install -e ."
+  - if [ "$TRAVIS_PYTHON_VERSION" = "2.6" ] ;then pip install unittest2 ;fi
+
+script:
+  # We invoke the tests directly instead of using "-m discover" because
+  # that would set the current working directory to the "sgp4/" package
+  # itself, allowing "io.py" to shadow the real io module and thereby
+  # causing failure when NumPy tries to import.
+  - python -m sgp4.tests
