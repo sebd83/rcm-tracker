@@ -37,7 +37,7 @@ Running the following command will download and run the script. If you want to r
 (https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
 <pre>
 bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
-<pre>
+</pre>
 This script will:
 *remove the pre-packaged version of Node-RED and Node.js if they are present
 *install the current Node.js LTS release using the NodeSource. If it detects Node.js is already installed from NodeSource, it will ensure it is at least Node 8, but otherwise leave it alone
