@@ -3,3 +3,4 @@ __pycache__/
 *.py[cod]
 # Mac index
 .DS_Store
+**/.DS_Store
