@@ -5,11 +5,15 @@
 # https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
 import PIL
 from PIL import Image, ImageFont, ImageDraw
+from inky import InkyPHAT
 
 #img = Image.new("RGB", (212,104))
 img = Image.open("Inky/inky_test_yellow2.png")
 print(img.palette)
 draw = ImageDraw.Draw(img)
+
+inky_display = InkyPHAT("yellow")
+inky_display.set_border(inky_display.WHITE)
 
 # Rise: 2020-06-25 06:18:06.230531-04:00 / Set: 2020-06-25 06:29:23.534293-04:00 / Elevation Max: 19.00227244173817
 message = "Rise 06:18:06"
@@ -46,3 +50,5 @@ draw.text((x2,y2), message2, font=font, fill=2) #WHITE=1
 draw.text((x3,y3), message3, font=font, fill=2) #YELLOW=2
 draw.text((xSAT,ySAT), messageSAT, font=fontSAT, fill=1)
 img.save('/Users/sebastien/Desktop/tst.png')
+inky_display.set_image(img)
+inky_display.show()
