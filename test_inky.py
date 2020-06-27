@@ -49,6 +49,7 @@ draw.text((x1,y1), message, font=font, fill=2) #BLACK=0
 draw.text((x2,y2), message2, font=font, fill=2) #WHITE=1
 draw.text((x3,y3), message3, font=font, fill=2) #YELLOW=2
 draw.text((xSAT,ySAT), messageSAT, font=fontSAT, fill=1)
-img.save('/Users/sebastien/Desktop/tst.png')
+#img.save('/Users/sebastien/Desktop/tst.png')
+img.save('./tst.png')
 inky_display.set_image(img)
 inky_display.show()
