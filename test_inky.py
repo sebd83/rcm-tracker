@@ -13,7 +13,7 @@ print(img.palette)
 draw = ImageDraw.Draw(img)
 
 inky_display = InkyPHAT("yellow")
-inky_display.set_border(inky_display.WHITE)
+inky_display.set_border(inky_display.BLACK)
 
 # Rise: 2020-06-25 06:18:06.230531-04:00 / Set: 2020-06-25 06:29:23.534293-04:00 / Elevation Max: 19.00227244173817
 message = "Rise 06:18:06"
