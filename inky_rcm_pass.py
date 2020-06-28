@@ -8,7 +8,7 @@ from PIL import Image, ImageFont, ImageDraw
 from inky import InkyPHAT
 
 class RCM_Drawer:
-    TEMPLATE = "Inky/rcm_iso_left.png"
+    TEMPLATE = "./Inky/rcm_iso_left.png"
     WIDTH  = 212
     MARGIN_TOP = 10
     MARGIN_RIGHT = 10
