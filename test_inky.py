@@ -16,9 +16,9 @@ inky_display = InkyPHAT("yellow")
 inky_display.set_border(inky_display.BLACK)
 
 # Rise: 2020-06-25 06:18:06.230531-04:00 / Set: 2020-06-25 06:29:23.534293-04:00 / Elevation Max: 19.00227244173817
-message = "Rise 06:18:06"
-message2 = "Set 06:29:23"
-message3 = "Elevation 19.0°"
+message = "↗ 06:18:06"
+message2 = "⤒ 19.0°"
+message3 = "↘ 06:29:23"
 messageSAT = "RCM-2"
 
 font = ImageFont.truetype("Verdana.ttf",14)
