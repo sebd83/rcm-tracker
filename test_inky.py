@@ -23,7 +23,7 @@ message4 = "testing 4th line"
 message5 = "testing 5th line"
 messageSAT = "RCM-2"
 
-font = ImageFont.truetype("Verdana.ttf",14)
+font = ImageFont.truetype("Arial.ttf",14)
 fontSAT = ImageFont.truetype("Verdana Bold.ttf",12)
 w1, h1 = font.getsize(message)
 w2, h2 = font.getsize(message2)
