@@ -19,7 +19,7 @@ class RCM_Drawer:
     SYMBOL_RISE = u"↗"
     SYMBOL_SET_ = u"↘"
     SYMBOL_ELEV = u"↑"
-    FONT_SIZE_LINES = 12
+    FONT_SIZE_LINES = 14
     FONT_SIZE_SAT   = 16
     FONT_FILE_LINES = "Arial Unicode.ttf"
     FONT_FILE_SAT   = "Verdana Bold.ttf"
