@@ -57,6 +57,11 @@ wget https://www.piwheels.org/simple/scipy/scipy-1.5.0rc1-cp37-cp37m-linux_armv6
 <pre>
 pip3 install scipy-1.5.0rc1-cp37-cp37m-linux_armv6l.whl
 </pre>
+<pre>
+sudo apt-get install libopenblas-base
+sudo apt-get install libopenblas-dev
+sudo apt-get install libatlas-base-dev
+</pre>
 
 ===== IMPORTANT =====
 To stop the infinite loop that refreshes the raspberry pi every X seconds, connect to the pi via SSH and send the kill command:
