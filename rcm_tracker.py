@@ -81,6 +81,7 @@ def showCurrentPosition(rcm_sats, observer):
         #mv.plotBasemap()  
 
 def plotNextHours(rcm_sat, nhoursdelta):
+    UTC_now = datetime.utcnow()
     start_time_UTC = UTC_now#datetime(2020, 6, 17, 7, 10, tzinfo=timezone.utc)
     end_time_UTC = start_time_UTC + timedelta(hours=nhoursdelta)#datetime(2020, 6, 17, 9, 45, tzinfo=timezone.utc)
     #start_time_UTC = UTC_now - timedelta(seconds=96.5*60)
@@ -213,6 +214,7 @@ def setObserverMontreal():
 def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
     period = 96.5*60 #96.5 minutes
     golden = 1/1.6180339887
+    UTC_now = datetime.utcnow()
     
     time_a = UTC_now + timedelta(seconds=-period)
     jd_a, fr_a = Julian.JD_FR(time_a)
@@ -339,7 +341,6 @@ if __name__ == '__main__':
     # ====== Declare satellites & get data
     rcm1, rcm2, rcm3 = getAll3RCM()
 
-    UTC_now = datetime.utcnow()
     observer, obs_timezone = setObserverMontreal()
 
     # ====== Test 1 --> Show current RCM sats Position
