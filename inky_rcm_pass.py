@@ -16,12 +16,13 @@ class RCM_Drawer:
     MARGIN_LEFT = 10
     HEIGHT = 104
     COLOR = "yellow"
-    SYMBOL_RISE = u"↗"
-    SYMBOL_SET_ = u"↘"
-    SYMBOL_ELEV = u"↑"
+    SYMBOL_RISE = u"↗ "
+    SYMBOL_SET_ = u"↘ "
+    SYMBOL_ELEV = u"↑ "
     FONT_SIZE_LINES = 14
     FONT_SIZE_SAT   = 16
-    FONT_FILE_LINES = "Arial Bold.ttf"
+    FONT_FILE_SYMBL = "Arial Unicode.ttf"
+    FONT_FILE_LINES = "Verdana Bold.ttf"
     FONT_FILE_SAT   = "Verdana Bold.ttf"
     FONT_COLOR_LINES= 0 #WHITE
     FONT_COLOR_MIDDLE_LINE = 2#YELLOW
@@ -33,6 +34,7 @@ class RCM_Drawer:
         self.txt_lines = []
         self.txt_satellite = ""
         self.font_lines = ImageFont.truetype(self.FONT_FILE_LINES, self.FONT_SIZE_LINES)
+        self.font_symbl = ImageFont.truetype(self.FONT_FILE_SYMBL, self.FONT_SIZE_LINES)
         self.font_sat   = ImageFont.truetype(self.FONT_FILE_SAT, self.FONT_SIZE_SAT)
 
     def newImg_from_template(self):
@@ -48,10 +50,10 @@ class RCM_Drawer:
             self.img.save(save_img_path)
 
     def set_pass_times_lines(self, rise_time_str, rise_az, set_time_str, set_az, elev):
-        self.txt_lines.append(self.SYMBOL_RISE + str(rise_time_str))
+        self.txt_lines.append(str(rise_time_str)) #self.SYMBOL_RISE + 
         self.txt_lines.append(str(rise_az))
-        self.txt_lines.append(self.SYMBOL_ELEV + str(elev))
-        self.txt_lines.append(self.SYMBOL_SET_ + str(set_time_str))
+        self.txt_lines.append(str(elev)) #self.SYMBOL_ELEV + 
+        self.txt_lines.append(str(set_time_str)) #self.SYMBOL_SET_ + 
         self.txt_lines.append(str(set_az))
         
         nlines = len(self.txt_lines)
@@ -89,8 +91,21 @@ class RCM_Drawer:
                 color_line = self.FONT_COLOR_MIDDLE_LINE
             
             self.draw.text((x,y), txt_li, font=self.font_lines, fill=color_line)
+
+            #For lines 1, 3 and 5, add the relevant symbol
+            if li == 1:
+                x -= self.font_symbl.getsize(self.SYMBOL_RISE)[0] 
+                self.draw.text((x,y), self.SYMBOL_RISE, font=self.font_symbl, fill=color_line)
+            elif li == 3:
+                x -= self.font_symbl.getsize(self.SYMBOL_ELEV)[0] 
+                self.draw.text((x,y), self.SYMBOL_ELEV, font=self.font_symbl, fill=color_line)
+            elif li == 5:
+                x -= self.font_symbl.getsize(self.SYMBOL_SET_)[0] 
+                self.draw.text((x,y), self.SYMBOL_SET_, font=self.font_symbl, fill=color_line)
+
             yi += wh[1]
             li += 1
+
 
     def set_satellite_name(self, sat_name):
         self.txt_satellite = str(sat_name)
