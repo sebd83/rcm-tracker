@@ -44,6 +44,7 @@ if __name__ == '__main__':
     # This module combines both the rcm_tracker logic and the inky_rcm_pass into
     # a global flow
     rcm_d = RCM_Drawer() #class to draw on inky
+    observer, obs_timezone = setObserverMontreal()
 
     while True:
 
