@@ -21,9 +21,10 @@ class RCM_Drawer:
     SYMBOL_ELEV = u"↑"
     FONT_SIZE_LINES = 14
     FONT_SIZE_SAT   = 16
-    FONT_FILE_LINES = "Arial Unicode.ttf"
+    FONT_FILE_LINES = "Arial Bold.ttf"
     FONT_FILE_SAT   = "Verdana Bold.ttf"
     FONT_COLOR_LINES= 0 #WHITE
+    FONT_COLOR_MIDDLE_LINE = 2#YELLOW
     FONT_COLOR_SAT  = 2 #YELLOW
 
     def __init__(self):
@@ -81,7 +82,13 @@ class RCM_Drawer:
                 yi += y_ws/2 # Add half whitespace before lines 1, 3, 4
             y = int(yi)
             print(y)
-            self.draw.text((x,y), txt_li, font=self.font_lines, fill=self.FONT_COLOR_LINES)
+
+            if li in [1,2,4,5]: # Adding an exception, color middle line in yellow (to distinguish)
+                color_line = self.FONT_COLOR_LINES
+            else:
+                color_line = self.FONT_COLOR_MIDDLE_LINE
+            
+            self.draw.text((x,y), txt_li, font=self.font_lines, fill=color_line)
             yi += wh[1]
             li += 1
 
