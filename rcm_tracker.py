@@ -12,7 +12,6 @@ from satellite_tracker import *
 from datetime import timedelta, datetime, tzinfo, timezone
 from dateutil import tz
 from math import floor
-import pytz
 import matplotlib.pyplot as plt
 from scipy.optimize import fmin, brentq
 
@@ -207,8 +206,9 @@ def setObserverMontreal():
     obs_Lat = 45.5019327 # MONTREAL
     obs_Long = -73.6906396 # MONTREAL
     obs_Alt = 0.042 #42m
+    to_zone = tz.gettz('America/New_York')
 
-    return (obs_Long, obs_Lat, obs_Alt)
+    return (obs_Long, obs_Lat, obs_Alt), to_zone
 
 def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
     period = 96.5*60 #96.5 minutes
@@ -312,9 +312,8 @@ def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
         #print(getTHData(fr_xi, jd_xi, sat1, observer))
         #print(f"Elevation= {fopt}")
 
-def printRiseSetTimesMontreal(trise, tset, elevmax, arise, aset):
+def printRiseSetTimes(to_zone, trise, tset, elevmax, arise, aset):
     from_zone = tz.gettz('UTC')
-    to_zone = tz.gettz('America/New_York')
     # Tell the datetime object that it's in UTC time zone since 
     # datetime objects are 'naive' by default
     trise = trise.replace(tzinfo=from_zone)
@@ -323,9 +322,7 @@ def printRiseSetTimesMontreal(trise, tset, elevmax, arise, aset):
     tset = tset.astimezone(to_zone)
     print(f"R: {trise:%H:%M:%S} @{arise} / S: {tset:%H:%M:%S} @{aset}/ El. Max: {elevmax:.1f}")
 
-if __name__ == '__main__':
-
-    # ====== Declare satellites & get data
+def getAll3RCM():
     ctrak = CelesTrak()
     ctrak.trackSatellite('RCM-1')
     ctrak.trackSatellite('RCM-2')
@@ -335,15 +332,19 @@ if __name__ == '__main__':
     rcm1 = ctrak.getTrackedSat('RCM-1')
     rcm2 = ctrak.getTrackedSat('RCM-2')
     rcm3 = ctrak.getTrackedSat('RCM-3')
+    return rcm1, rcm2, rcm3
+
+if __name__ == '__main__':
+
+    # ====== Declare satellites & get data
+    rcm1, rcm2, rcm3 = getAll3RCM()
 
     UTC_now = datetime.utcnow()
-
-    observer = setObserverMontreal()
-    eastern = pytz.timezone('US/Eastern')
+    observer, obs_timezone = setObserverMontreal()
 
     # ====== Test 1 --> Show current RCM sats Position
     print("===CURRENT POSITION===")
-    showCurrentPosition(ctrak.listTrackedSats(), observer)
+    showCurrentPosition([rcm1, rcm2, rcm3], observer)
 
     # ====== Test 2 --> Plot the elevation for a RCM sat in the next 24 hours
     #print("===RCM-1 ELEVATION NEXT 9 HOURS===")
@@ -357,14 +358,14 @@ if __name__ == '__main__':
 
     print("RCM 1")
     t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
-    printRiseSetTimesMontreal(t1r, t1s, elmax, az1r, az1s)
+    printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
     
     print("RCM 2")
     t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
-    printRiseSetTimesMontreal(t2r, t2s, elmax, az2r, az2s)
+    printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
 
     print("RCM 3")
     t3r, t3s, elmax, az3r, az3s = next(timesRCM3)
-    printRiseSetTimesMontreal(t3r, t3s, elmax, az3r, az3s)
+    printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
 
     
