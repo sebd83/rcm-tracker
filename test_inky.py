@@ -37,9 +37,9 @@ wSAT, hSAT = fontSAT.getsize(messageSAT)
 x1 = 212-10-w1
 x2 = 212-10-w2
 x3 = 212-10-w3#center:(212/2) - (w3/2)
-x4 = 212-10-w4
-x5 = 212-10-w5
-x6 = 212-10-w6
+#x4 = 212-10-w4
+#x5 = 212-10-w5
+#x6 = 212-10-w6
 xSAT = 20
 ySAT = 104-hSAT-10
 
@@ -47,9 +47,9 @@ ys = (104-h1-h2-h3)/4
 y1 = ys
 y2 = 2*ys+h1
 y3 = 3*ys+h1+h2
-y4 = 4*ys+h1+h2+h3
-y5 = 5*ys+h1+h2+h3+h4
-y6 = 6*ys+h1+h2+h3+h4+h5
+#y4 = 4*ys+h1+h2+h3
+#y5 = 5*ys+h1+h2+h3+h4
+#y6 = 6*ys+h1+h2+h3+h4+h5
 
 draw.text((x1,y1), message, font=font, fill=2) #WHITE=0
 draw.text((x2,y2), message2, font=font, fill=2) #BLACK=1
