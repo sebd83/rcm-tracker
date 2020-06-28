@@ -72,8 +72,6 @@ class RCM_Drawer:
         #Line 5
         #Full ws
         y_ws = (self.HEIGHT-sum([wh[1] for wh in width_heights]))/float(nlines)
-        print([wh[1] for wh in width_heights])
-        print(y_ws)
         yi = 0
         li = 1
         for txt_li, wh in zip(self.txt_lines, width_heights):
@@ -83,7 +81,6 @@ class RCM_Drawer:
             else:
                 yi += y_ws/2 # Add half whitespace before lines 1, 3, 4
             y = int(yi)
-            print(y)
 
             if li in [1,2,4,5]: # Adding an exception, color middle line in yellow (to distinguish)
                 color_line = self.FONT_COLOR_LINES
