@@ -47,12 +47,12 @@ y3 = 3*ys+h1+h2
 y4 = 4*ys+h1+h2+h3
 y5 = 4*ys+h1+h2+h3+h4
 
-draw.text((x1,y1), message, font=font, fill=2) #BLACK=0
-draw.text((x2,y2), message2, font=font, fill=2) #WHITE=1
+draw.text((x1,y1), message, font=font, fill=2) #WHITE=0
+draw.text((x2,y2), message2, font=font, fill=2) #BLACK=1
 draw.text((x3,y3), message3, font=font, fill=2) #YELLOW=2
 draw.text((x4,y4), message4, font=font, fill=2)
 draw.text((x5,y5), message5, font=font, fill=2)
-draw.text((xSAT,ySAT), messageSAT, font=fontSAT, fill=1)
+draw.text((xSAT,ySAT), messageSAT, font=fontSAT, fill=0)
 #img.save('/Users/sebastien/Desktop/tst.png')
 img.save('./tst.png')
 inky_display.set_image(img)
