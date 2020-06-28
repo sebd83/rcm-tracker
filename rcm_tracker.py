@@ -332,21 +332,25 @@ if __name__ == '__main__':
     ctrak.trackSatellite('RCM-3')
     ctrak.getData()
 
+    rcm1 = ctrak.getTrackedSat('RCM-1')
+    rcm2 = ctrak.getTrackedSat('RCM-2')
+    rcm3 = ctrak.getTrackedSat('RCM-3')
+
     UTC_now = datetime.utcnow()
 
     observer = setObserverMontreal()
     eastern = pytz.timezone('US/Eastern')
 
     # ====== Test 1 --> Show current RCM sats Position
+    print("===CURRENT POSITION===")
     showCurrentPosition(ctrak.listTrackedSats(), observer)
 
     # ====== Test 2 --> Plot the elevation for a RCM sat in the next 24 hours
-    rcm1 = ctrak.getTrackedSat('RCM-1')
-    rcm2 = ctrak.getTrackedSat('RCM-2')
-    rcm3 = ctrak.getTrackedSat('RCM-3')
+    #print("===RCM-1 ELEVATION NEXT 9 HOURS===")
     #plotNextHours(rcm1, 9)
 
     # ===== Test 3 --> Find the next rise/set times by using a bisection method
+    print("===NEXT RISE/SET TIMES (FOR ELEVATION > 30deg)===")
     timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 2, 30)
     timesRCM2 = findNextNRiseSetTimes(rcm2, observer, 2, 30)
     timesRCM3 = findNextNRiseSetTimes(rcm3, observer, 2, 30)
