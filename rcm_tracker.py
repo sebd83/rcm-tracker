@@ -196,7 +196,7 @@ def getAzimuthString(JD_fr, JD_jd, rcm_sat, observer):
         pre = "WWN"
     elif az <= 348.75:
         pre = "NW"
-    return f"{pre}{az:.0f}"
+    return f"{az:.0f} {pre}"
 
 def getNegElevation(JD_fr, JD_jd, rcm_sat, observer):
     return -getElevation(JD_fr, JD_jd, rcm_sat, observer)
