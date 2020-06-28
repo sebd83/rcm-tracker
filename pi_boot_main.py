@@ -36,6 +36,7 @@
 #                +-------------------------------+
 from rcm_tracker import *
 from inky_rcm_pass import *
+from time import sleep
 
 REFRESH_TIME = 15
 SAVE_IMG_OUTPUT = './rcm_on_inky.png'
