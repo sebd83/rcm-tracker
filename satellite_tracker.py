@@ -13,7 +13,7 @@ from math import sin, cos, asin, atan, atan2, pi, modf, radians, degrees, sqrt
 from datetime import datetime
 from python_sgp4_master.sgp4.api import Satrec
 # To draw maps
-from mpl_toolkits.basemap import Basemap
+#from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
@@ -453,35 +453,35 @@ class MapVisualizer:
         self.vLat = vLat
 
 
-    def plotBasemap(self):
-        # set up orthographic map projection with
-        # perspective of satellite looking down at 50N, 100W.
-        # use low resolution coastlines.
-        map = Basemap(projection='ortho',lat_0=self.Lat,lon_0=self.Long,resolution='l')
-        # draw coastlines, country boundaries, fill continents.
-        map.drawcoastlines(linewidth=0.25)
-        map.drawcountries(linewidth=0.25)
-        map.fillcontinents(color='green',lake_color='aqua')
-        # draw the edge of the map projection region (the projection limb)
-        map.drawmapboundary(fill_color='aqua')
-        # draw lat/lon grid lines every 30 degrees.
-        map.drawmeridians(np.arange(0,360,30))
-        map.drawparallels(np.arange(-90,90,30))
-        # make up some data on a regular lat/lon grid.
-        x = np.array([self.Long])
-        y = np.array([self.Lat])
-        u = np.array([self.vLong])
-        v = np.array([self.vLat])
-        # rotate the speed vectors in the map coordinates
-        u_map, v_map, x_map, y_map = map.rotate_vector(u, v, x, y, returnxy=True)
-        plott = map.plot(x_map, y_map, marker='D',color='m')
-        #quiv = map.quiver(x_map, y_map, u_map, v_map, latlon=False, linewidths=1.5, scale=1)
-        # compute native map projection coordinates of lat/lon grid.
-        #x, y = map(lons*180./np.pi, lats*180./np.pi)
-        # contour data over the map.
-        #cs = map.contour(x,y,wave+mean,15,linewidths=1.5)
-        plt.title('RCM spacecraft now')
-        plt.show()
+    # def plotBasemap(self):
+    #     # set up orthographic map projection with
+    #     # perspective of satellite looking down at 50N, 100W.
+    #     # use low resolution coastlines.
+    #     map = Basemap(projection='ortho',lat_0=self.Lat,lon_0=self.Long,resolution='l')
+    #     # draw coastlines, country boundaries, fill continents.
+    #     map.drawcoastlines(linewidth=0.25)
+    #     map.drawcountries(linewidth=0.25)
+    #     map.fillcontinents(color='green',lake_color='aqua')
+    #     # draw the edge of the map projection region (the projection limb)
+    #     map.drawmapboundary(fill_color='aqua')
+    #     # draw lat/lon grid lines every 30 degrees.
+    #     map.drawmeridians(np.arange(0,360,30))
+    #     map.drawparallels(np.arange(-90,90,30))
+    #     # make up some data on a regular lat/lon grid.
+    #     x = np.array([self.Long])
+    #     y = np.array([self.Lat])
+    #     u = np.array([self.vLong])
+    #     v = np.array([self.vLat])
+    #     # rotate the speed vectors in the map coordinates
+    #     u_map, v_map, x_map, y_map = map.rotate_vector(u, v, x, y, returnxy=True)
+    #     plott = map.plot(x_map, y_map, marker='D',color='m')
+    #     #quiv = map.quiver(x_map, y_map, u_map, v_map, latlon=False, linewidths=1.5, scale=1)
+    #     # compute native map projection coordinates of lat/lon grid.
+    #     #x, y = map(lons*180./np.pi, lats*180./np.pi)
+    #     # contour data over the map.
+    #     #cs = map.contour(x,y,wave+mean,15,linewidths=1.5)
+    #     plt.title('RCM spacecraft now')
+    #     plt.show()
 
 
 if __name__ == '__main__':
