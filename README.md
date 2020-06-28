@@ -44,3 +44,15 @@ This script will:
 *install the latest version of Node-RED using npm
 *optionally install a collection of useful Pi-specific nodes
 *setup Node-RED to run as a service and provide a set of commands to work with the service
+
+5. Install missing python dependancies
+5. a) SCIPY
+https://raspberrypi.stackexchange.com/questions/8308/how-to-install-latest-scipy-version-on-raspberry-pi
+<pre>
+pip3 install pip --upgrade
+wget https://www.piwheels.org/simple/scipy/scipy-1.5.0rc1-cp37-cp37m-linux_armv6l.whl#sha256=7385847629c084ab601c9e204078ed350741ad378d13550e0053ba48a3b8e91e
+pip install scipy-1.5.0rc1-cp37-cp37m-linux_armv6l.whl
+</pre>
+
+===== IMPORTANT =====
+To stop the infinite loop that refreshes the raspberry pi every X seconds, connect to the pi via SSH and send the kill command:
