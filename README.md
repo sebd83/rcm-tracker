@@ -64,6 +64,7 @@ sudo apt-get install libatlas-base-dev
 </pre>
 
 6. Setup Raspberry Pi to launch the script at bootup
+https://www.raspberrypi.org/documentation/linux/usage/cron.md
 <pre>
 crontab -e
 </pre>
