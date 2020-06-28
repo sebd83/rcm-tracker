@@ -49,11 +49,11 @@ class RCM_Drawer:
         if save_img_path is not None:
             self.img.save(save_img_path)
 
-    def set_pass_times_lines(self, rise_time_str, rise_az, set_time_str, set_az, elev):
-        self.txt_lines.append(str(rise_time_str)) #self.SYMBOL_RISE + 
+    def set_pass_times_lines(self, rise_time, rise_az, set_time, set_az, elev):
+        self.txt_lines.append(f"{rise_time:%H:%M:%S}") #self.SYMBOL_RISE + 
         self.txt_lines.append(str(rise_az))
-        self.txt_lines.append(str(elev)) #self.SYMBOL_ELEV + 
-        self.txt_lines.append(str(set_time_str)) #self.SYMBOL_SET_ + 
+        self.txt_lines.append(f"{elev:.1f}°")) #self.SYMBOL_ELEV + 
+        self.txt_lines.append(f"{set_time:%H:%M:%S}") #self.SYMBOL_SET_ + 
         self.txt_lines.append(str(set_az))
         
         nlines = len(self.txt_lines)
@@ -89,14 +89,14 @@ class RCM_Drawer:
             
             self.draw.text((x,y), txt_li, font=self.font_lines, fill=color_line)
 
-            #For lines 1, 3 and 5, add the relevant symbol
+            #For lines 1, 3 and 4, add the relevant symbol
             if li == 1:
                 x -= self.font_symbl.getsize(self.SYMBOL_RISE)[0] 
                 self.draw.text((x,y), self.SYMBOL_RISE, font=self.font_symbl, fill=color_line)
             elif li == 3:
                 x -= self.font_symbl.getsize(self.SYMBOL_ELEV)[0] 
                 self.draw.text((x,y), self.SYMBOL_ELEV, font=self.font_symbl, fill=color_line)
-            elif li == 5:
+            elif li == 4:
                 x -= self.font_symbl.getsize(self.SYMBOL_SET_)[0] 
                 self.draw.text((x,y), self.SYMBOL_SET_, font=self.font_symbl, fill=color_line)
 
@@ -111,19 +111,19 @@ class RCM_Drawer:
         ySAT = self.HEIGHT - hSAT - self.MARGIN_BOTTOM
         self.draw.text((xSAT,ySAT), self.txt_satellite, font=self.font_sat, fill=self.FONT_COLOR_SAT)
 
-if __name__ == '__main__':
-    rcm_d = RCM_Drawer()
+# if __name__ == '__main__':
+#     rcm_d = RCM_Drawer()
 
-    sat_name = "RCM-1"
-    rise_time = "06:41:44"
-    rise_az   = "21 NNE"
-    set_time  = "06:53:51"
-    set_az    = "172 S"
-    elev      = "33.1°"
-    #RCM 1
-    #R: 06:41:44 @NNE21 / S: 06:53:51 @S172/ El. Max: 33.1
-    rcm_d.set_pass_times_lines(rise_time, rise_az, set_time, set_az, elev)
-    rcm_d.set_satellite_name(sat_name)
+#     sat_name = "RCM-1"
+#     rise_time = "06:41:44"
+#     rise_az   = "21 NNE"
+#     set_time  = "06:53:51"
+#     set_az    = "172 S"
+#     elev      = "33.1°"
+#     #RCM 1
+#     #R: 06:41:44 @NNE21 / S: 06:53:51 @S172/ El. Max: 33.1
+#     rcm_d.set_pass_times_lines(rise_time, rise_az, set_time, set_az, elev)
+#     rcm_d.set_satellite_name(sat_name)
 
-    save_output = './rcm_on_inky.png'
-    rcm_d.set_image_Inky(save_output)
+#     save_output = './rcm_on_inky.png'
+#     rcm_d.set_image_Inky(save_output)
