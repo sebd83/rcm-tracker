@@ -53,7 +53,7 @@ if __name__ == '__main__':
 
         rcm1, rcm2, rcm3 = getAll3RCM()
         timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 1, 30)
-        t1r, t1s, elmax, az1r, az1s = next(timesRCM2)
+        t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
         rcm_d.newImg_from_template()
         rcm_d.set_pass_times_lines(t1r, az1r, t1s, az1s, elmax)
         rcm_d.set_satellite_name("RCM-1")
