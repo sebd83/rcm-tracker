@@ -5,6 +5,7 @@
 # https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
 import PIL
 from PIL import Image, ImageFont, ImageDraw
+from inky import InkyPHAT
 
 class RCM_Drawer:
     TEMPLATE = "Inky/rcm_iso_left.png"
@@ -35,7 +36,7 @@ class RCM_Drawer:
 
     def newImg_from_template(self):
         self.img = Image.open(self.TEMPLATE)
-        self.draw = ImageDraw.Draw(img)
+        self.draw = ImageDraw.Draw(self.img)
 
     def set_image_Inky(self, save_img_path=None):
         inky_display = InkyPHAT(self.COLOR)
@@ -46,25 +47,29 @@ class RCM_Drawer:
             self.img.save(save_img_path)
 
     def set_pass_times_lines(self, rise_time_str, rise_az, set_time_str, set_az, elev):
-        self.txt_lines[0] = self.SYMBOL_RISE + str(rise_time_str)
-        self.txt_lines[1] = str(rise_az)
-        self.txt_lines[2] = self.SYMBOL_ELEV + str(elev)
-        self.txt_lines[3] = str(set_az)
-        self.txt_lines[4] = self.SYMBOL_SET_ + Str(set_time_str)
+        self.txt_lines.append(self.SYMBOL_RISE + str(rise_time_str))
+        self.txt_lines.append(str(rise_az))
+        self.txt_lines.append(self.SYMBOL_ELEV + str(elev))
+        self.txt_lines.append(str(set_az))
+        self.txt_lines.append(self.SYMBOL_SET_ + str(set_time_str))
+        nlines = len(self.txt_lines)
 
         width_heights = [self.font_lines.getsize(txt_li) for txt_li in self.txt_lines]
-
+        y_ws = sum([wh[1] for wh in width_heights])/(nlines+1.0)
+        yi = 0
         for txt_li, wh in zip(self.txt_lines, width_heights):
             x = self.WIDTH - self.MARGIN_RIGHT - wh[0]
-            #y = 
-            draw.text((x,y), txt_li, font=self.font_lines, fill=self.FONT_COLOR_LINES)
+            yi += y_ws
+            y = int(yi)
+            self.draw.text((x,y), txt_li, font=self.font_lines, fill=self.FONT_COLOR_LINES)
+            yi += wh[1]
 
-    def set_satellite_name(self, sat_name)
+    def set_satellite_name(self, sat_name):
         self.txt_satellite = str(sat_name)
         wSAT, hSAT = self.font_sat.getsize(self.txt_satellite)
         xSAT = self.MARGIN_LEFT
         ySAT = self.HEIGHT - hSAT - self.MARGIN_BOTTOM
-        draw.text((xSAT,ySAT), self.txt_satellite, font=self.font_sat, fill=self.FONT_COLOR_SAT)
+        self.draw.text((xSAT,ySAT), self.txt_satellite, font=self.font_sat, fill=self.FONT_COLOR_SAT)
 
 if __name__ == '__main__':
     rcm_d = RCM_Drawer()
