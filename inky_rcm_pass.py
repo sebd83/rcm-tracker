@@ -50,22 +50,40 @@ class RCM_Drawer:
         self.txt_lines.append(self.SYMBOL_RISE + str(rise_time_str))
         self.txt_lines.append(str(rise_az))
         self.txt_lines.append(self.SYMBOL_ELEV + str(elev))
-        self.txt_lines.append(str(set_az))
         self.txt_lines.append(self.SYMBOL_SET_ + str(set_time_str))
+        self.txt_lines.append(str(set_az))
+        
         nlines = len(self.txt_lines)
 
         width_heights = [self.font_lines.getsize(txt_li) for txt_li in self.txt_lines]
-        y_ws = (self.HEIGHT-sum([wh[1] for wh in width_heights]))/(nlines+1.0)
+        #Whitespace philosophy:
+        #Full ws
+        #Line1
+        #Half ws
+        #Line2
+        #Full ws
+        #Line3
+        #Full ws
+        #Line4
+        #Half ws
+        #Line 5
+        #Full ws
+        y_ws = (self.HEIGHT-sum([wh[1] for wh in width_heights]))/float(nlines)
         print([wh[1] for wh in width_heights])
         print(y_ws)
         yi = 0
+        li = 1
         for txt_li, wh in zip(self.txt_lines, width_heights):
             x = self.WIDTH - self.MARGIN_RIGHT - wh[0]
-            yi += y_ws
+            if li in [1,3,4]:
+                yi += y_ws # Add full whitespace before lines 1, 3, 4
+            else:
+                yi += y_ws/2 # Add half whitespace before lines 1, 3, 4
             y = int(yi)
             print(y)
             self.draw.text((x,y), txt_li, font=self.font_lines, fill=self.FONT_COLOR_LINES)
             yi += wh[1]
+            li += 1
 
     def set_satellite_name(self, sat_name):
         self.txt_satellite = str(sat_name)
