@@ -24,14 +24,14 @@ message5 = "testing 5th line"
 message6 = "testing 6th line"
 messageSAT = "RCM-2"
 
-font = ImageFont.truetype("Arial Unicode.ttf",14)
+font = ImageFont.truetype("Arial Unicode.ttf",16)
 fontSAT = ImageFont.truetype("Verdana Bold.ttf",12)
 w1, h1 = font.getsize(message)
 w2, h2 = font.getsize(message2)
 w3, h3 = font.getsize(message3)
-w4, h4 = font.getsize(message4)
-w5, h5 = font.getsize(message5)
-w6, h6 = font.getsize(message6)
+#w4, h4 = font.getsize(message4)
+#w5, h5 = font.getsize(message5)
+#w6, h6 = font.getsize(message6)
 wSAT, hSAT = fontSAT.getsize(messageSAT)
 
 x1 = 212-10-w1
@@ -43,7 +43,7 @@ x6 = 212-10-w6
 xSAT = 20
 ySAT = 104-hSAT-10
 
-ys = (104-h1-h2-h3-h4-h5-h6)/7
+ys = (104-h1-h2-h3)/4
 y1 = ys
 y2 = 2*ys+h1
 y3 = 3*ys+h1+h2
@@ -54,9 +54,9 @@ y6 = 6*ys+h1+h2+h3+h4+h5
 draw.text((x1,y1), message, font=font, fill=2) #WHITE=0
 draw.text((x2,y2), message2, font=font, fill=2) #BLACK=1
 draw.text((x3,y3), message3, font=font, fill=2) #YELLOW=2
-draw.text((x4,y4), message4, font=font, fill=2)
-draw.text((x5,y5), message5, font=font, fill=2)
-draw.text((x6,y6), message6, font=font, fill=2)
+#draw.text((x4,y4), message4, font=font, fill=2)
+#draw.text((x5,y5), message5, font=font, fill=2)
+#draw.text((x6,y6), message6, font=font, fill=2)
 draw.text((xSAT,ySAT), messageSAT, font=fontSAT, fill=0)
 #img.save('/Users/sebastien/Desktop/tst.png')
 img.save('./tst.png')

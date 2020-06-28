@@ -162,6 +162,11 @@ def getElevation(JD_fr, JD_jd, rcm_sat, observer):
     az, el, rg = getTHData(JD_fr, JD_jd, rcm_sat, observer)
     return el
 
+def getAzimuthString(JD_fr, JD_jd, rcm_sat, observer):
+    #Azimuth --> North = 0deg and East = 90deg
+    az, el, rg = getTHData(JD_fr, JD_jd, rcm_sat, observer)
+    #TODO convert to NNE64deg type string
+    return az
 
 def getNegElevation(JD_fr, JD_jd, rcm_sat, observer):
     return -getElevation(JD_fr, JD_jd, rcm_sat, observer)
