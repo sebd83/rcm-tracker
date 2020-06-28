@@ -41,7 +41,7 @@ class RCM_Drawer:
     def set_image_Inky(self, save_img_path=None):
         inky_display = InkyPHAT(self.COLOR)
         inky_display.set_border(inky_display.BLACK)
-        inky_display.set_image(img)
+        inky_display.set_image(self.img)
         inky_display.show()
         if save_img_path is not None:
             self.img.save(save_img_path)
