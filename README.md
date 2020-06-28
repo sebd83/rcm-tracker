@@ -24,11 +24,11 @@ https://debian-administration.org/article/530/SSH_with_authentication_key_instea
 
 3. Install inky pHAT from Pimodoro
 https://learn.pimoroni.com/tutorial/sandyj/getting-started-with-inky-phat
-Open a new terminal, and type the following, making sure to type y or n when prompted:
+<em>Open a new terminal, and type the following, making sure to type y or n when prompted:</em>
 <pre>
 curl https://get.pimoroni.com/inky | bash
 </pre>
-Once that's done, it probably a good idea to reboot your Pi to let the changes propagate, if the installer doesn't prompt you to reboot.
+<em>Once that's done, it probably a good idea to reboot your Pi to let the changes propagate, if the installer doesn't prompt you to reboot.</em>
 
 4. Install node-red
 https://nodered.org/docs/getting-started/raspberrypi
@@ -61,6 +61,15 @@ pip3 install scipy-1.5.0rc1-cp37-cp37m-linux_armv6l.whl
 sudo apt-get install libopenblas-base
 sudo apt-get install libopenblas-dev
 sudo apt-get install libatlas-base-dev
+</pre>
+
+6. Setup Raspberry Pi to launch the script at bootup
+<pre>
+crontab -e
+</pre>
+add the following line at the end of the file
+<pre>
+@reboot python3 /home/pi/rcm-tracker/pi_boot_main.py
 </pre>
 
 ===== Last Details =====
