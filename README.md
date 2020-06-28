@@ -50,8 +50,12 @@ This script will:
 https://raspberrypi.stackexchange.com/questions/8308/how-to-install-latest-scipy-version-on-raspberry-pi
 <pre>
 pip3 install pip --upgrade
+</pre>
+<pre>
 wget https://www.piwheels.org/simple/scipy/scipy-1.5.0rc1-cp37-cp37m-linux_armv6l.whl#sha256=7385847629c084ab601c9e204078ed350741ad378d13550e0053ba48a3b8e91e
-pip install scipy-1.5.0rc1-cp37-cp37m-linux_armv6l.whl
+</pre>
+<pre>
+pip3 install scipy-1.5.0rc1-cp37-cp37m-linux_armv6l.whl
 </pre>
 
 ===== IMPORTANT =====
