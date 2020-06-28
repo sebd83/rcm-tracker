@@ -12,7 +12,6 @@ from satellite_tracker import *
 from datetime import timedelta, datetime, tzinfo, timezone
 from dateutil import tz
 from math import floor
-import pytz
 import matplotlib.pyplot as plt
 from scipy.optimize import fmin, brentq
 
@@ -82,6 +81,7 @@ def showCurrentPosition(rcm_sats, observer):
         #mv.plotBasemap()  
 
 def plotNextHours(rcm_sat, nhoursdelta):
+    UTC_now = datetime.utcnow()
     start_time_UTC = UTC_now#datetime(2020, 6, 17, 7, 10, tzinfo=timezone.utc)
     end_time_UTC = start_time_UTC + timedelta(hours=nhoursdelta)#datetime(2020, 6, 17, 9, 45, tzinfo=timezone.utc)
     #start_time_UTC = UTC_now - timedelta(seconds=96.5*60)
@@ -162,6 +162,42 @@ def getElevation(JD_fr, JD_jd, rcm_sat, observer):
     az, el, rg = getTHData(JD_fr, JD_jd, rcm_sat, observer)
     return el
 
+def getAzimuthString(JD_fr, JD_jd, rcm_sat, observer):
+    #Azimuth --> North = 0deg and East = 90deg
+    az, el, rg = getTHData(JD_fr, JD_jd, rcm_sat, observer)
+    #TODO convert to NNE64deg type string
+    pre = ""
+    if az <= 11.25 or az >348.75:
+        pre = "N"
+    elif az <= 33.75:
+        pre = "NNE"
+    elif az <= 56.25:
+        pre = "NE"
+    elif az <= 78.75:
+        pre = "ENE"
+    elif az <= 101.25:
+        pre = "E"
+    elif az <= 123.75:
+        pre = "ESE"
+    elif az <= 146.25:
+        pre = "SE"
+    elif az <= 168.75:
+        pre = "SSE"
+    elif az <= 191.25:
+        pre = "S"
+    elif az <= 213.75:
+        pre = "SSW"
+    elif az <= 236.25:
+        pre = "SW"
+    elif az <= 258.75:
+        pre = "WSW"
+    elif az <= 281.25:
+        pre = "W"
+    elif az <= 303.75:
+        pre = "WWN"
+    elif az <= 348.75:
+        pre = "NW"
+    return f"{az:.0f} {pre}"
 
 def getNegElevation(JD_fr, JD_jd, rcm_sat, observer):
     return -getElevation(JD_fr, JD_jd, rcm_sat, observer)
@@ -171,12 +207,14 @@ def setObserverMontreal():
     obs_Lat = 45.5019327 # MONTREAL
     obs_Long = -73.6906396 # MONTREAL
     obs_Alt = 0.042 #42m
+    to_zone = tz.gettz('America/New_York')
 
-    return (obs_Long, obs_Lat, obs_Alt)
+    return (obs_Long, obs_Lat, obs_Alt), to_zone
 
 def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
     period = 96.5*60 #96.5 minutes
     golden = 1/1.6180339887
+    UTC_now = datetime.utcnow()
     
     time_a = UTC_now + timedelta(seconds=-period)
     jd_a, fr_a = Julian.JD_FR(time_a)
@@ -258,7 +296,12 @@ def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
                     #print("SET = " + str(time_rise_set))
                     time_set = time_rise_set
                     if fopti > minElevation:
-                        yield [time_rise, time_set, fopti]
+                        # get azimuth for the rise and set
+                        jd_azr, fr_azr = Julian.JD_FR(time_rise)
+                        az_rise = getAzimuthString(jd_azr, fr_azr, rcm_sat, observer)
+                        jd_azs, fr_azs = Julian.JD_FR(time_set)
+                        az_set = getAzimuthString(jd_azs, fr_azs, rcm_sat, observer)
+                        yield [time_rise, time_set, fopti, az_rise, az_set]
                         i += 1
 
 
@@ -271,55 +314,59 @@ def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
         #print(getTHData(fr_xi, jd_xi, sat1, observer))
         #print(f"Elevation= {fopt}")
 
-def printRiseSetTimesMontreal(trise, tset, elevmax):
+def printRiseSetTimes(to_zone, trise, tset, elevmax, arise, aset):
     from_zone = tz.gettz('UTC')
-    to_zone = tz.gettz('America/New_York')
     # Tell the datetime object that it's in UTC time zone since 
     # datetime objects are 'naive' by default
     trise = trise.replace(tzinfo=from_zone)
     trise = trise.astimezone(to_zone)
     tset = tset.replace(tzinfo=from_zone)
     tset = tset.astimezone(to_zone)
-    print(f"Rise: {trise} / Set: {tset} / Elevation Max: {elevmax}")
+    print(f"R: {trise:%H:%M:%S} @{arise} / S: {tset:%H:%M:%S} @{aset}/ El. Max: {elevmax:.1f}")
 
-if __name__ == '__main__':
-
-    # ====== Declare satellites & get data
+def getAll3RCM():
     ctrak = CelesTrak()
     ctrak.trackSatellite('RCM-1')
     ctrak.trackSatellite('RCM-2')
     ctrak.trackSatellite('RCM-3')
     ctrak.getData()
 
-    UTC_now = datetime.utcnow()
-
-    observer = setObserverMontreal()
-    eastern = pytz.timezone('US/Eastern')
-
-    # ====== Test 1 --> Show current RCM sats Position
-    #showCurrentPosition(ctrak.listTrackedSats(), observer)
-
-    # ====== Test 2 --> Plot the elevation for a RCM sat in the next 24 hours
     rcm1 = ctrak.getTrackedSat('RCM-1')
     rcm2 = ctrak.getTrackedSat('RCM-2')
     rcm3 = ctrak.getTrackedSat('RCM-3')
+    return rcm1, rcm2, rcm3
+
+if __name__ == '__main__':
+
+    # ====== Declare satellites & get data
+    rcm1, rcm2, rcm3 = getAll3RCM()
+
+    observer, obs_timezone = setObserverMontreal()
+
+    # ====== Test 1 --> Show current RCM sats Position
+    print("===CURRENT POSITION===")
+    showCurrentPosition([rcm1, rcm2, rcm3], observer)
+
+    # ====== Test 2 --> Plot the elevation for a RCM sat in the next 24 hours
+    #print("===RCM-1 ELEVATION NEXT 9 HOURS===")
     #plotNextHours(rcm1, 9)
 
     # ===== Test 3 --> Find the next rise/set times by using a bisection method
+    print("===NEXT RISE/SET TIMES (FOR ELEVATION > 30deg)===")
     timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 2, 30)
     timesRCM2 = findNextNRiseSetTimes(rcm2, observer, 2, 30)
     timesRCM3 = findNextNRiseSetTimes(rcm3, observer, 2, 30)
 
     print("RCM 1")
-    t1r, t1s, elmax = next(timesRCM1)
-    printRiseSetTimesMontreal(t1r, t1s, elmax)
+    t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
+    printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
     
     print("RCM 2")
-    t2r, t2s, elmax = next(timesRCM2)
-    printRiseSetTimesMontreal(t2r, t2s, elmax)
+    t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
+    printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
 
     print("RCM 3")
-    t3r, t3s, elmax = next(timesRCM3)
-    printRiseSetTimesMontreal(t3r, t3s, elmax)
+    t3r, t3s, elmax, az3r, az3s = next(timesRCM3)
+    printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
 
     
