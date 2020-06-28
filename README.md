@@ -63,5 +63,18 @@ sudo apt-get install libopenblas-dev
 sudo apt-get install libatlas-base-dev
 </pre>
 
-===== IMPORTANT =====
+===== Last Details =====
 To stop the infinite loop that refreshes the raspberry pi every X seconds, connect to the pi via SSH and send the kill command:
+<pre>
+ps -ef|grep python
+</pre>
+Identify the process id that runs the loop (5445 in the example below)
+<pre>
+root      1006     1  0 Jun27 ?        00:03:10 /usr/bin/python3 /usr/bin/fail2ban-server -xf start
+pi        5445  4772 14 09:22 pts/2    00:03:28 python3 pi_boot_main.py
+pi        5482  5469  0 09:46 pts/3    00:00:00 grep --color=auto python
+</pre>
+Then kill the process
+<pre>
+kill 5445
+</pre>
