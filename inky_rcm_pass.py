@@ -40,6 +40,8 @@ class RCM_Drawer:
     def newImg_from_template(self):
         self.img = Image.open(self.TEMPLATE)
         self.draw = ImageDraw.Draw(self.img)
+        self.txt_lines = []
+        self.txt_satellite = ""
 
     def set_image_Inky(self, save_img_path=None):
         inky_display = InkyPHAT(self.COLOR)
