@@ -56,11 +56,14 @@ class RCM_Drawer:
 
         width_heights = [self.font_lines.getsize(txt_li) for txt_li in self.txt_lines]
         y_ws = sum([wh[1] for wh in width_heights])/(nlines+1.0)
+        print([wh[1] for wh in width_heights])
+        print(y_ws)
         yi = 0
         for txt_li, wh in zip(self.txt_lines, width_heights):
             x = self.WIDTH - self.MARGIN_RIGHT - wh[0]
             yi += y_ws
             y = int(yi)
+            print(y)
             self.draw.text((x,y), txt_li, font=self.font_lines, fill=self.FONT_COLOR_LINES)
             yi += wh[1]
 
