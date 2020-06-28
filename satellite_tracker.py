@@ -14,7 +14,7 @@ from datetime import datetime
 from python_sgp4_master.sgp4.api import Satrec
 # To draw maps
 #from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
