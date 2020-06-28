@@ -52,7 +52,7 @@ class RCM_Drawer:
     def set_pass_times_lines(self, rise_time, rise_az, set_time, set_az, elev):
         self.txt_lines.append(f"{rise_time:%H:%M:%S}") #self.SYMBOL_RISE + 
         self.txt_lines.append(str(rise_az))
-        self.txt_lines.append(f"{elev:.1f}°")) #self.SYMBOL_ELEV + 
+        self.txt_lines.append(f"{elev:.1f}°") #self.SYMBOL_ELEV + 
         self.txt_lines.append(f"{set_time:%H:%M:%S}") #self.SYMBOL_SET_ + 
         self.txt_lines.append(str(set_az))
         
