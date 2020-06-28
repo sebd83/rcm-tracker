@@ -45,7 +45,7 @@ if __name__ == '__main__':
     # a global flow
     rcm_d = RCM_Drawer() #class to draw on inky
 
-    While True:
+    while True:
 
         #Get config file
         #TODO (with node-red)
