@@ -55,7 +55,7 @@ class RCM_Drawer:
         nlines = len(self.txt_lines)
 
         width_heights = [self.font_lines.getsize(txt_li) for txt_li in self.txt_lines]
-        y_ws = sum([wh[1] for wh in width_heights])/(nlines+1.0)
+        y_ws = (self.HEIGHT-sum([wh[1] for wh in width_heights]))/(nlines+1.0)
         print([wh[1] for wh in width_heights])
         print(y_ws)
         yi = 0
