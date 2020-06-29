@@ -212,7 +212,6 @@ def setObserverMontreal():
     return (obs_Long, obs_Lat, obs_Alt), to_zone
 
 def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
-    #BUG: see find_next_rise_time_bug
     period = 96.5*60 #96.5 minutes
     golden = 1/1.6180339887
     UTC_now = datetime.utcnow()
@@ -336,7 +335,7 @@ def printRiseSetTimes(to_zone, trise, tset, elevmax, arise, aset):
     trise = trise.astimezone(to_zone)
     tset = tset.replace(tzinfo=from_zone)
     tset = tset.astimezone(to_zone)
-    print(f"R: {trise:%H:%M:%S} @{arise} / S: {tset:%H:%M:%S} @{aset}/ El. Max: {elevmax:.1f}")
+    return [f"{trise:%d-%m}", f"{trise:%H:%M:%S}", f"@{arise}", f"{tset:%d-%m}", f"{tset:%H:%M:%S}", f"@{aset}", f"{elevmax:.1f}°"]
 
 def getAll3RCM():
     ctrak = CelesTrak()
@@ -374,14 +373,17 @@ if __name__ == '__main__':
     for i in range(5):
         print("RCM 1")
         t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
-        printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
+        rst_string = printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
+        print(" / ".join(rst_string))
         
         print("RCM 2")
         t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
-        printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
+        rst_string = printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
+        print(" / ".join(rst_string))
 
         print("RCM 3")
         t3r, t3s, elmax, az3r, az3s = next(timesRCM3)
-        printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
+        rst_string = printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
+        print(" / ".join(rst_string))
 
     

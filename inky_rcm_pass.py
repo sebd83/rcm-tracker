@@ -6,12 +6,14 @@
 import PIL
 from PIL import Image, ImageFont, ImageDraw
 from inky import InkyPHAT
+import os.path
 
-#BUG: not using the timezone conversion when display on the pi HAT
 #BUG: relative paths not working out of context
 
 class RCM_Drawer:
-    TEMPLATE = "./Inky/rcm_iso_left.png"
+    TEMPLATE_RELATIVE_PATH = "/Inky/rcm_iso_left.png"
+    MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
+    TEMPLATE = os.path.join(MODULE_PATH, TEMPLATE_RELATIVE_PATH)
     WIDTH  = 212
     MARGIN_TOP = 10
     MARGIN_RIGHT = 10
@@ -24,9 +26,9 @@ class RCM_Drawer:
     SYMBOL_ELEV = u"↑ "
     FONT_SIZE_LINES = 14
     FONT_SIZE_SAT   = 16
-    FONT_FILE_SYMBL = "Arial Unicode.ttf"
-    FONT_FILE_LINES = "Verdana Bold.ttf"
-    FONT_FILE_SAT   = "Verdana Bold.ttf"
+    FONT_FILE_SYMBL = os.path.join(MODULE_PATH, "Arial Unicode.ttf")
+    FONT_FILE_LINES = os.path.join(MODULE_PATH, "Verdana Bold.ttf")
+    FONT_FILE_SAT   = os.path.join(MODULE_PATH, "Verdana Bold.ttf")
     FONT_COLOR_LINES= 0 #WHITE
     FONT_COLOR_MIDDLE_LINE = 2#YELLOW
     FONT_COLOR_SAT  = 2 #YELLOW
@@ -54,12 +56,12 @@ class RCM_Drawer:
         if save_img_path is not None:
             self.img.save(save_img_path)
 
-    def set_pass_times_lines(self, rise_time, rise_az, set_time, set_az, elev):
-        self.txt_lines.append(f"{rise_time:%H:%M:%S}") #self.SYMBOL_RISE + 
-        self.txt_lines.append(str(rise_az))
-        self.txt_lines.append(f"{elev:.1f}°") #self.SYMBOL_ELEV + 
-        self.txt_lines.append(f"{set_time:%H:%M:%S}") #self.SYMBOL_SET_ + 
-        self.txt_lines.append(str(set_az))
+    def set_pass_times_lines(self, rise_time_str, rise_az_str, set_time_str, set_az_str, elev_str):
+        self.txt_lines.append(rise_time_str) #self.SYMBOL_RISE + 
+        self.txt_lines.append(rise_az_str)
+        self.txt_lines.append(elev_str) #self.SYMBOL_ELEV + 
+        self.txt_lines.append(set_time_str) #self.SYMBOL_SET_ + 
+        self.txt_lines.append(set_az_str)
         
         nlines = len(self.txt_lines)
 
@@ -116,19 +118,19 @@ class RCM_Drawer:
         ySAT = self.HEIGHT - hSAT - self.MARGIN_BOTTOM
         self.draw.text((xSAT,ySAT), self.txt_satellite, font=self.font_sat, fill=self.FONT_COLOR_SAT)
 
-# if __name__ == '__main__':
-#     rcm_d = RCM_Drawer()
+if __name__ == '__main__':
+    rcm_d = RCM_Drawer()
 
-#     sat_name = "RCM-1"
-#     rise_time = "06:41:44"
-#     rise_az   = "21 NNE"
-#     set_time  = "06:53:51"
-#     set_az    = "172 S"
-#     elev      = "33.1°"
-#     #RCM 1
-#     #R: 06:41:44 @NNE21 / S: 06:53:51 @S172/ El. Max: 33.1
-#     rcm_d.set_pass_times_lines(rise_time, rise_az, set_time, set_az, elev)
-#     rcm_d.set_satellite_name(sat_name)
+    sat_name = "RCM-1"
+    rise_time = "06:41:44"
+    rise_az   = "21 NNE"
+    set_time  = "06:53:51"
+    set_az    = "172 S"
+    elev      = "33.1°"
+    #RCM 1
+    #R: 06:41:44 @NNE21 / S: 06:53:51 @S172/ El. Max: 33.1
+    rcm_d.set_pass_times_lines(rise_time, rise_az, set_time, set_az, elev)
+    rcm_d.set_satellite_name(sat_name)
 
-#     save_output = './rcm_on_inky.png'
-#     rcm_d.set_image_Inky(save_output)
+    save_output = './rcm_on_inky.png'
+    rcm_d.set_image_Inky(save_output)
