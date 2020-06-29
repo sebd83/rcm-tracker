@@ -1,0 +1,25 @@
+#Find next rise time bug
+RCM 1
+R: 06:49:39 @20 NNE / S: 07:01:56 @177 S/ El. Max: 40.3
+RCM 2
+R: 07:53:33 @5 N / S: 08:05:42 @213 SSW/ El. Max: 39.4
+RCM 3
+R: 07:21:47 @12 NNE / S: 07:34:20 @195 SSW/ El. Max: 88.3
+RCM 1
+R: 17:42:08 @145 SE / S: 17:54:14 @355 N/ El. Max: 37.3
+RCM 2
+R: 18:45:49 @182 S / S: 18:58:09 @341 NW/ El. Max: 42.7
+RCM 3
+R: 18:14:01 @164 SSE / S: 18:26:34 @348 NW/ El. Max: 83.7
+RCM 1
+R: 06:57:34 @18 NNE / S: 07:10:00 @181 S/ El. Max: 49.5
+RCM 2
+Traceback (most recent call last):
+  File "rcm_tracker.py", line 366, in <module>
+    t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
+  File "rcm_tracker.py", line 287, in findNextNRiseSetTimes
+    rise_set = brentq(getElevation, fr_xi, xopt[0], args=(jd_xi, rcm_sat, observer), xtol=xtol, full_output=False, disp=disp)
+  File "/usr/local/lib/python3.7/site-packages/scipy/optimize/zeros.py", line 780, in brentq
+    r = _zeros._brentq(f, a, b, xtol, rtol, maxiter, args, full_output, disp)
+ValueError: f(a) and f(b) must have different signs
+
