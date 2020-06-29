@@ -212,6 +212,7 @@ def setObserverMontreal():
     return (obs_Long, obs_Lat, obs_Alt), to_zone
 
 def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
+    #BUG: see find_next_rise_time_bug
     period = 96.5*60 #96.5 minutes
     golden = 1/1.6180339887
     UTC_now = datetime.utcnow()
