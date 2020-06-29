@@ -11,7 +11,7 @@ import os.path
 #BUG: relative paths not working out of context
 
 class RCM_Drawer:
-    TEMPLATE_RELATIVE_PATH = "/Inky/rcm_iso_left.png"
+    TEMPLATE_RELATIVE_PATH = "Inky/rcm_iso_left.png"
     MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
     TEMPLATE = os.path.join(MODULE_PATH, TEMPLATE_RELATIVE_PATH)
     WIDTH  = 212
