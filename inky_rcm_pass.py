@@ -7,6 +7,9 @@ import PIL
 from PIL import Image, ImageFont, ImageDraw
 from inky import InkyPHAT
 
+#BUG: not using the timezone conversion when display on the pi HAT
+#BUG: relative paths not working out of context
+
 class RCM_Drawer:
     TEMPLATE = "./Inky/rcm_iso_left.png"
     WIDTH  = 212
