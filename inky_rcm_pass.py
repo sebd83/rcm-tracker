@@ -121,7 +121,7 @@ class RCM_Drawer:
 if __name__ == '__main__':
     rcm_d = RCM_Drawer()
 
-    sat_name = "RCM-1"
+    sat_name = "RCM#1"
     rise_time = "06:41:44"
     rise_az   = "21 NNE"
     set_time  = "06:53:51"
