@@ -215,7 +215,7 @@ def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
     period = 96.5*60 #96.5 minutes
     golden = 1/1.6180339887
     UTC_now = datetime.utcnow()
-    
+
     time_a = UTC_now + timedelta(seconds=-period)
     jd_a, fr_a = Julian.JD_FR(time_a)
     #print(time_a)
@@ -353,20 +353,21 @@ if __name__ == '__main__':
 
     # ===== Test 3 --> Find the next rise/set times by using a bisection method
     print("===NEXT RISE/SET TIMES (FOR ELEVATION > 30deg)===")
-    timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 2, 30)
-    timesRCM2 = findNextNRiseSetTimes(rcm2, observer, 2, 30)
-    timesRCM3 = findNextNRiseSetTimes(rcm3, observer, 2, 30)
+    timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 5, 30)
+    timesRCM2 = findNextNRiseSetTimes(rcm2, observer, 5, 30)
+    timesRCM3 = findNextNRiseSetTimes(rcm3, observer, 5, 30)
 
-    print("RCM 1")
-    t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
-    printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
-    
-    print("RCM 2")
-    t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
-    printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
+    for i in range(5):
+        print("RCM 1")
+        t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
+        printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
+        
+        print("RCM 2")
+        t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
+        printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
 
-    print("RCM 3")
-    t3r, t3s, elmax, az3r, az3s = next(timesRCM3)
-    printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
+        print("RCM 3")
+        t3r, t3s, elmax, az3r, az3s = next(timesRCM3)
+        printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
 
     
