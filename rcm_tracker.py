@@ -269,41 +269,52 @@ def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
         # Time xii is the new guess looking forward 68% (golden ratio)
         time_xii = time_xi + timedelta(seconds=period*golden)
         jd_xii, fr_xii = Julian.JD_FR(time_xii)
+        #print(f"jd_xii: {jd_xii}")
+        #print(f"fr_xii: {fr_xii}")
 
         if min_max_found == "min":
             #Search for max now
             xopt, fopt, iteri, fcalls, wflags = fmin(getNegElevation, fr_xii, args=(jd_xii, rcm_sat, observer), xtol=xtol, full_output=full_out, disp=disp)
             #print("\nMAX =")
+            #print(xopt)
+            #print(-fopt)
             min_max_found = "max"
             fopt = -fopt
         else:
             #Search for min now
             xopt, fopt, iteri, fcalls, wflags = fmin(getElevation, fr_xii, args=(jd_xii, rcm_sat, observer), xtol=xtol, full_output=full_out, disp=disp)
             #print("\nMIN =")
+            #print(xopt)
+            #print(fopt)
             min_max_found = "min"
 
         # Check if a root could be found between this new local min/max and the old one
         if fopti < 0 and fopt > 0 or fopti > 0 and fopt < 0:
+            # Check if the jd_xi and jd_xii are different. If so, then use the same base for fraction of Julian Day for the solver
+            if jd_xi == jd_xii:
+                fr_x2 = xopt[0]
+            else:
+                fr_x2 = xopt[0]+(jd_xii-jd_xi)
             # Find root !
-            rise_set = brentq(getElevation, fr_xi, xopt[0], args=(jd_xi, rcm_sat, observer), xtol=xtol, full_output=False, disp=disp)
+            rise_set = brentq(getElevation, fr_xi, fr_x2, args=(jd_xi, rcm_sat, observer), xtol=xtol, full_output=False, disp=disp)
             time_rise_set = time_xi + timedelta(seconds=(rise_set-fr_xi)*86400) 
-            # If root is not in the past
-            if time_rise_set > time_b:
-                if fopti < 0 and fopt > 0:
-                    #print("RISE = " + str(time_rise_set))
-                    time_rise = time_rise_set
-                else:
-                    # yield the rise / set times + elevation at maximum (if greater than argument supplied)
-                    #print("SET = " + str(time_rise_set))
-                    time_set = time_rise_set
-                    if fopti > minElevation:
-                        # get azimuth for the rise and set
-                        jd_azr, fr_azr = Julian.JD_FR(time_rise)
-                        az_rise = getAzimuthString(jd_azr, fr_azr, rcm_sat, observer)
-                        jd_azs, fr_azs = Julian.JD_FR(time_set)
-                        az_set = getAzimuthString(jd_azs, fr_azs, rcm_sat, observer)
-                        yield [time_rise, time_set, fopti, az_rise, az_set]
-                        i += 1
+            #print(f"time_rise_set: {time_rise_set}")
+            # If root is not in the past --> We want to check if the set is not in the past
+            if fopti < 0 and fopt > 0: ## RISING !
+                time_rise = time_rise_set
+                #print(f"time_rise: {time_rise}")
+            else: ## SETTING
+                # yield the rise / set times + elevation at maximum (if greater than argument supplied)
+                time_set = time_rise_set
+                #print(f"time_set: {time_set}")
+                if fopti > minElevation and time_set > time_b: # Check if the elevation is greater than min wanted and not in the past
+                    # get azimuth for the rise and set
+                    jd_azr, fr_azr = Julian.JD_FR(time_rise)
+                    az_rise = getAzimuthString(jd_azr, fr_azr, rcm_sat, observer)
+                    jd_azs, fr_azs = Julian.JD_FR(time_set)
+                    az_set = getAzimuthString(jd_azs, fr_azs, rcm_sat, observer)
+                    yield [time_rise, time_set, fopti, az_rise, az_set]
+                    i += 1
 
 
         # Time xi is the local min/max
@@ -312,6 +323,8 @@ def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
         fopti = fopt
         #print(time_xi)
         jd_xi, fr_xi = Julian.JD_FR(time_xi)
+        #print(f"jd_xi: {jd_xi}")
+        #print(f"fr_xi: {fr_xi}")
         #print(getTHData(fr_xi, jd_xi, sat1, observer))
         #print(f"Elevation= {fopt}")
 
