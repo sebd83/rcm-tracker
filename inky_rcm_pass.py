@@ -150,7 +150,7 @@ class WifiDrawer(Drawer):
     def set_Wifi_Line(self):
         w, h = self.font.getsize(self.WifiText)
         x = self.MARGIN_LEFT
-        y = self.HEIGHT - h - self.MARGIN_BOTTOM
+        y = (self.HEIGHT - h)/2
         self.draw.text((x,y), self.WifiText, font=self.font, fill=self.FONT_COLOR)
 
     def set_image_Inky(self, save_img_path=None):
