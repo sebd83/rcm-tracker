@@ -148,7 +148,7 @@ class WifiDrawer(Drawer):
         self.draw = ImageDraw.Draw(self.img)
 
     def set_Wifi_Line(self):
-        w, h = self.font_sat.getsize(self.txt_satellite)
+        w, h = self.font.getsize(self.WifiText)
         x = self.MARGIN_LEFT
         y = self.HEIGHT - h - self.MARGIN_BOTTOM
         self.draw.text((x,y), self.WifiText, font=self.font, fill=self.FONT_COLOR)
