@@ -16,7 +16,7 @@ with the following libraries
 
 2. Raspberry Pi OS
 
-2. a) optional, setup secure SSH to remote into raspberry pi
+2a) optional, setup secure SSH to remote into raspberry pi
 SSH with key auth
 https://www.raspberrypi.org/documentation/configuration/security.md
 https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md#copy-your-public-key-to-your-raspberry-pi
@@ -30,10 +30,9 @@ curl https://get.pimoroni.com/inky | bash
 </pre>
 <em>Once that's done, it probably a good idea to reboot your Pi to let the changes propagate, if the installer doesn't prompt you to reboot.</em>
 
-4. N/A
 
 5. Install missing python dependancies
-5. a) SCIPY
+5a) SCIPY
 https://raspberrypi.stackexchange.com/questions/8308/how-to-install-latest-scipy-version-on-raspberry-pi
 <pre>
 pip3 install pip --upgrade
@@ -61,7 +60,11 @@ add the following line at the end of the file
 </pre>
 
 ==== BOM ====
-...
+PI-ZERO-WH Raspberry Pi Zero W Version 1.1 with Headers
+PIM367 Yellow/Black/White – Inky pHAT (ePaper/eInk/EPD)
+DC-5250-MUSB Adaptateur mural Alimentation 5V DC 2.5A (connecteur micro B USB)
+COMP-130B Micro-B USB Câble OTG
+COMP-520 Mini HDMI to Standard HDMI Adapter
 
 ===== Last Details =====
 To stop the infinite loop that refreshes the raspberry pi every X seconds, connect to the pi via SSH and send the kill command:
