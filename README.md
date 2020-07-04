@@ -9,7 +9,7 @@ This project is a simple python code to track and predict the next passes of RCM
  |_|  \_\\_____|_|  |_|    |_|  |_|  \_\/_/    \_\_____|_|\_\______|_|  \_\
 </pre>
 
-Requirements:
+==== Requirements ====
 1. Python 3
 with the following libraries
 (to be completed with a venv and freeze requirements command)
@@ -30,20 +30,7 @@ curl https://get.pimoroni.com/inky | bash
 </pre>
 <em>Once that's done, it probably a good idea to reboot your Pi to let the changes propagate, if the installer doesn't prompt you to reboot.</em>
 
-4. Install node-red
-https://nodered.org/docs/getting-started/raspberrypi
-
-Running the following command will download and run the script. If you want to review the contents of the script first, you can view it here.
-(https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
-<pre>
-bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
-</pre>
-This script will:
-*remove the pre-packaged version of Node-RED and Node.js if they are present
-*install the current Node.js LTS release using the NodeSource. If it detects Node.js is already installed from NodeSource, it will ensure it is at least Node 8, but otherwise leave it alone
-*install the latest version of Node-RED using npm
-*optionally install a collection of useful Pi-specific nodes
-*setup Node-RED to run as a service and provide a set of commands to work with the service
+4. N/A
 
 5. Install missing python dependancies
 5. a) SCIPY
@@ -72,6 +59,9 @@ add the following line at the end of the file
 <pre>
 @reboot python3 /home/pi/rcm-tracker/pi_boot_main.py
 </pre>
+
+==== BOM ====
+...
 
 ===== Last Details =====
 To stop the infinite loop that refreshes the raspberry pi every X seconds, connect to the pi via SSH and send the kill command:
