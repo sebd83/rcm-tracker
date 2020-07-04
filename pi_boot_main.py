@@ -37,12 +37,12 @@
 from rcm_tracker import *
 from inky_rcm_pass import *
 from time import sleep
+import sys
 
 REFRESH_TIME = 15
 SAVE_IMG_OUTPUT = './rcm_on_inky.png'
 
 if __name__ == '__main__':
-    print(requests.exceptions.ConnectionError)
     # This module combines both the rcm_tracker logic and the inky_rcm_pass into
     # a global flow
     rcm_d = RCM_Drawer() #class to draw on inky
@@ -52,8 +52,13 @@ if __name__ == '__main__':
 
         #Get config file
         #TODO (with node-red)
+        try:
+            rcm1, rcm2, rcm3 = getAll3RCM()
+        except requests.exceptions.ConnectionError:
+            no_wifi = WifiDrawer()
+            no_wifi.set_image_Inky()
+            sys.exit(0)
 
-        rcm1, rcm2, rcm3 = getAll3RCM()
         timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 1, 30)
         t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
         d1r_str, t1r_str, az1r_str, d1s_str, t1s_str, az1s_str, elmax_str = printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
