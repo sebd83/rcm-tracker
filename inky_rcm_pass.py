@@ -10,17 +10,20 @@ import os.path
 
 #BUG: relative paths not working out of context
 
-class RCM_Drawer:
+class Drawer:
+    WIDTH  = 212
+    HEIGHT = 104
+    COLOR = "yellow"
+
+
+class RCM_Drawer(Drawer):
     TEMPLATE_RELATIVE_PATH = "Inky/rcm_iso_left.png"
     MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
     TEMPLATE = os.path.join(MODULE_PATH, TEMPLATE_RELATIVE_PATH)
-    WIDTH  = 212
     MARGIN_TOP = 10
     MARGIN_RIGHT = 10
     MARGIN_BOTTOM = 10
     MARGIN_LEFT = 10
-    HEIGHT = 104
-    COLOR = "yellow"
     SYMBOL_RISE = u"↗ "
     SYMBOL_SET_ = u"↘ "
     SYMBOL_ELEV = u"↑ "
@@ -118,10 +121,51 @@ class RCM_Drawer:
         ySAT = self.HEIGHT - hSAT - self.MARGIN_BOTTOM
         self.draw.text((xSAT,ySAT), self.txt_satellite, font=self.font_sat, fill=self.FONT_COLOR_SAT)
 
+class WifiDrawer(Drawer):
+    TEMPLATE_RELATIVE_PATH = "Inky/wifi_symbol.png"
+    MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
+    TEMPLATE = os.path.join(MODULE_PATH, TEMPLATE_RELATIVE_PATH)
+
+    MARGIN_TOP = 10
+    MARGIN_RIGHT = 10
+    MARGIN_BOTTOM = 10
+    MARGIN_LEFT = 90
+
+    FONT_SIZE = 22
+    FONT_FILE = os.path.join(MODULE_PATH, "Verdana Bold.ttf")
+    FONT_COLOR= 2#YELLOW
+
+    def __init__(self):
+        #PIL images
+        self.newImg_from_template()
+        self.font = ImageFont.truetype(self.FONT_FILE, self.FONT_SIZE)
+        self.WifiText = "No Wifi"
+        self.set_Wifi_Line()
+
+
+    def newImg_from_template(self):
+        self.img = Image.open(self.TEMPLATE)
+        self.draw = ImageDraw.Draw(self.img)
+
+    def set_Wifi_Line(self):
+        w, h = self.font_sat.getsize(self.txt_satellite)
+        x = self.MARGIN_LEFT
+        y = self.HEIGHT - h - self.MARGIN_BOTTOM
+        self.draw.text((x,y), self.WifiText, font=self.font, fill=self.FONT_COLOR)
+
+    def set_image_Inky(self, save_img_path=None):
+        inky_display = InkyPHAT(self.COLOR)
+        inky_display.set_border(inky_display.BLACK)
+        inky_display.set_image(self.img)
+        inky_display.show()
+        if save_img_path is not None:
+            self.img.save(save_img_path)
+
+
 if __name__ == '__main__':
     rcm_d = RCM_Drawer()
 
-    sat_name = "RCM#1"
+    sat_name  = "RCM#1"
     rise_time = "06:41:44"
     rise_az   = "21 NNE"
     set_time  = "06:53:51"
@@ -134,3 +178,6 @@ if __name__ == '__main__':
 
     save_output = './rcm_on_inky.png'
     rcm_d.set_image_Inky(save_output)
+
+    no_wifi = WifiDrawer()
+    no_wifi.set_image_Inky()
