@@ -250,8 +250,24 @@ def findNextNRiseSetTimes(rcm_sat, observer, n, minElevation = 0):
         fopt = -fopt
     else:
         # Pick the other golden value
-        print("other golden value required")
-        pass
+        time_x = UTC_now + timedelta(seconds=-period*(1-golden))
+        jd_x, fr_x = Julian.JD_FR(time_x)
+        el_x = getElevation(fr_x, jd_x, rcm_sat, observer)
+        if el_x < el_a and el_x < el_b:
+            # Search for minimum !
+            xopt, fopt, iteri, fcalls, wflags = fmin(getElevation, fr_x, args=(jd_x, rcm_sat, observer), xtol=xtol, full_output=full_out, disp=disp)
+            #print("\nMIN =")
+            min_max_found = "min"
+        elif el_x > el_a and el_x > el_b:
+            # Search for maximum !
+            xopt, fopt, iteri, fcalls, wflags = fmin(getNegElevation, fr_x, args=(jd_x, rcm_sat, observer), xtol=xtol, full_output=full_out, disp=disp)
+            #print("\nMAX =")
+            min_max_found = "max"
+            fopt = -fopt
+        else:
+            # Cannot determine if min or max to be found in the interval...
+            print("Cannot determine if minimum or maximum to be found in the past interval")
+            pass
     
     # Time xi is the local min/max
     time_xi = time_x + timedelta(seconds=(xopt[0]-fr_x)*86400)
