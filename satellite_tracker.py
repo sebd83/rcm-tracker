@@ -355,7 +355,8 @@ class CelesTrak:
             # Internal method used by getData -> HTML doc request
             self.data_request = requests.get(self.data_url)
             self.data_doc = self.data_request.text
-        except requests.exceptions.ConnectionError:
+        except requests.exceptions.ConnectionError as err:
+            print(err)
             raise ConnectError
 
     def getData(self):
