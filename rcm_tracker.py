@@ -350,40 +350,43 @@ def getAll3RCM():
     return rcm1, rcm2, rcm3
 
 if __name__ == '__main__':
-
+    
     # ====== Declare satellites & get data
-    rcm1, rcm2, rcm3 = getAll3RCM()
+    try:
+        rcm1, rcm2, rcm3 = getAll3RCM()
+    except ConnectError:
+        print("Connection Error, WIFI not enabled or configured ?")
+    else:
+        observer, obs_timezone = setObserverMontreal()
 
-    observer, obs_timezone = setObserverMontreal()
+        # ====== Test 1 --> Show current RCM sats Position
+        print("===CURRENT POSITION===")
+        showCurrentPosition([rcm1, rcm2, rcm3], observer)
 
-    # ====== Test 1 --> Show current RCM sats Position
-    print("===CURRENT POSITION===")
-    showCurrentPosition([rcm1, rcm2, rcm3], observer)
+        # ====== Test 2 --> Plot the elevation for a RCM sat in the next 24 hours
+        #print("===RCM-1 ELEVATION NEXT 9 HOURS===")
+        #plotNextHours(rcm1, 9)
 
-    # ====== Test 2 --> Plot the elevation for a RCM sat in the next 24 hours
-    #print("===RCM-1 ELEVATION NEXT 9 HOURS===")
-    #plotNextHours(rcm1, 9)
+        # ===== Test 3 --> Find the next rise/set times by using a bisection method
+        print("===NEXT RISE/SET TIMES (FOR ELEVATION > 30deg)===")
+        timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 5, 30)
+        timesRCM2 = findNextNRiseSetTimes(rcm2, observer, 5, 30)
+        timesRCM3 = findNextNRiseSetTimes(rcm3, observer, 5, 30)
 
-    # ===== Test 3 --> Find the next rise/set times by using a bisection method
-    print("===NEXT RISE/SET TIMES (FOR ELEVATION > 30deg)===")
-    timesRCM1 = findNextNRiseSetTimes(rcm1, observer, 5, 30)
-    timesRCM2 = findNextNRiseSetTimes(rcm2, observer, 5, 30)
-    timesRCM3 = findNextNRiseSetTimes(rcm3, observer, 5, 30)
+        for i in range(5):
+            print("RCM 1")
+            t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
+            rst_string = printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
+            print(" / ".join(rst_string))
+            
+            print("RCM 2")
+            t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
+            rst_string = printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
+            print(" / ".join(rst_string))
 
-    for i in range(5):
-        print("RCM 1")
-        t1r, t1s, elmax, az1r, az1s = next(timesRCM1)
-        rst_string = printRiseSetTimes(obs_timezone, t1r, t1s, elmax, az1r, az1s)
-        print(" / ".join(rst_string))
-        
-        print("RCM 2")
-        t2r, t2s, elmax, az2r, az2s = next(timesRCM2)
-        rst_string = printRiseSetTimes(obs_timezone, t2r, t2s, elmax, az2r, az2s)
-        print(" / ".join(rst_string))
-
-        print("RCM 3")
-        t3r, t3s, elmax, az3r, az3s = next(timesRCM3)
-        rst_string = printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
-        print(" / ".join(rst_string))
+            print("RCM 3")
+            t3r, t3s, elmax, az3r, az3s = next(timesRCM3)
+            rst_string = printRiseSetTimes(obs_timezone, t3r, t3s, elmax, az3r, az3s)
+            print(" / ".join(rst_string))
 
     

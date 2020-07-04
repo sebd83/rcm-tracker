@@ -28,6 +28,10 @@ import sys
 # 4) add sunrise and sunset predictions
 # 5) complement solver for predicting next VISIBLE passes
 
+class ConnectError(requests.exceptions.ConnectionError):
+    """Connection Error from requests ConnectionError"""
+    pass
+
 class Julian:
     """
     This class contains simple functions to compute julian days.
@@ -347,9 +351,12 @@ class CelesTrak:
                 return sat
 
     def _loadDataPage(self):
-        # Internal method used by getData -> HTML doc request
-        self.data_request = requests.get(self.data_url)
-        self.data_doc = self.data_request.text
+        try:
+            # Internal method used by getData -> HTML doc request
+            self.data_request = requests.get(self.data_url)
+            self.data_doc = self.data_request.text
+        except requests.exceptions.ConnectionError:
+            raise ConnectError
 
     def getData(self):
         # Gets the 2-line element data for each satellite tracked
@@ -491,36 +498,40 @@ if __name__ == '__main__':
     ctrak.trackSatellite('RCM-1')
     ctrak.trackSatellite('RCM-2')
     ctrak.trackSatellite('RCM-3')
-    ctrak.getData()
+    try:
+        ctrak.getData()
+    except requests.exceptions.ConnectionError:
+        print("Connection Error, WIFI not enabled or configured ?")
+    else:
+        # ====== Test data for dates conversion
+        # print("Test from Celestrak")
+        # GMST_oct_1_1995 = Julian.GMST_JD(Julian.JD(datetime(1995,10,1,9,0,0)))
+        # print(GMST_oct_1_1995)
+        # x,y,z = EarthOblate.ECI_from_Long_Lat(GMST_oct_1_1995, -75, 40, 0.042)
+        # x,y,z = EarthSpherical.ECI_from_Long_Lat(GMST_oct_1_1995, -75, 40, 0.042)
+        # print(x)
+        # print(y)
+        # print(z)
+        # #=WORKS test the conversion back
+        # Long, Lat, Alt = EarthOblate.Long_Lat_Alt_from_ECI(GMST_oct_1_1995, x, y, z)
+        # Long, Lat, Alt = EarthSpherical.Long_Lat_Alt_from_ECI(GMST_oct_1_1995, x, y, z)
+        # print(Long)
+        # print(Lat)
+        # print(Alt)
 
-    # ====== Test data for dates conversion
-    # print("Test from Celestrak")
-    # GMST_oct_1_1995 = Julian.GMST_JD(Julian.JD(datetime(1995,10,1,9,0,0)))
-    # print(GMST_oct_1_1995)
-    # x,y,z = EarthOblate.ECI_from_Long_Lat(GMST_oct_1_1995, -75, 40, 0.042)
-    # x,y,z = EarthSpherical.ECI_from_Long_Lat(GMST_oct_1_1995, -75, 40, 0.042)
-    # print(x)
-    # print(y)
-    # print(z)
-    # #=WORKS test the conversion back
-    # Long, Lat, Alt = EarthOblate.Long_Lat_Alt_from_ECI(GMST_oct_1_1995, x, y, z)
-    # Long, Lat, Alt = EarthSpherical.Long_Lat_Alt_from_ECI(GMST_oct_1_1995, x, y, z)
-    # print(Long)
-    # print(Lat)
-    # print(Alt)
+        # ====== Test data for MIR station from v02n03
+        
 
-    # ====== Test data for MIR station from v02n03
-    
+        # ====== Time of interest definition
+        print("====== Live data")
+        UTC_now = datetime.utcnow()
+        print(f"UTC_now: {UTC_now}")
+        GMST_now = Julian.GMST(UTC_now)
 
-    # ====== Time of interest definition
-    print("====== Live data")
-    UTC_now = datetime.utcnow()
-    print(UTC_now)
-    GMST_now = Julian.GMST(UTC_now)
-
-    # ====== Observer definition & Transformation of observer in ECI
-    #obs_Lat = 89    
-    obs_Lat = 45.5019327 # MONTREAL
-    obs_Long = -73.6906396 # MONTREAL
-    obs_Alt = 0.042 #42m
-    xo,yo,zo = EarthSpherical.ECI_from_Long_Lat(GMST_now, obs_Long, obs_Lat, obs_Alt)
+        # ====== Observer definition & Transformation of observer in ECI
+        #obs_Lat = 89    
+        obs_Lat = 45.5019327 # MONTREAL
+        obs_Long = -73.6906396 # MONTREAL
+        obs_Alt = 0.042 #42m
+        xo,yo,zo = EarthSpherical.ECI_from_Long_Lat(GMST_now, obs_Long, obs_Lat, obs_Alt)
+        print(f"observer coordinates: {xo}, {yo}, {zo}")

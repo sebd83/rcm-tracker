@@ -42,6 +42,7 @@ REFRESH_TIME = 15
 SAVE_IMG_OUTPUT = './rcm_on_inky.png'
 
 if __name__ == '__main__':
+    print(requests.exceptions.ConnectionError)
     # This module combines both the rcm_tracker logic and the inky_rcm_pass into
     # a global flow
     rcm_d = RCM_Drawer() #class to draw on inky
