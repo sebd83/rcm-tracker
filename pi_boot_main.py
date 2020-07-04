@@ -54,7 +54,7 @@ if __name__ == '__main__':
         #TODO (with node-red)
         try:
             rcm1, rcm2, rcm3 = getAll3RCM()
-        except requests.exceptions.ConnectionError:
+        except ConnectError:
             no_wifi = WifiDrawer()
             no_wifi.set_image_Inky()
             sys.exit(0)
