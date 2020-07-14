@@ -58,7 +58,7 @@ if __name__ == '__main__':
                     help='to specify if RCM-3 should be calculated and displayed')
     parser.add_argument('-l', '--loop', action='store_true', default=False,
                     help='to make display loop indefinitely between the specified sats')
-    parser.add_argument('-t', '--time_delay', type='int', default=15,
+    parser.add_argument('-t', '--time_delay', type=int, default=15,
                     help='specify the number of seconds to pause between display updates')
     args = parser.parse_args()
 
