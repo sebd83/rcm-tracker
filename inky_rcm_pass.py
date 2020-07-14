@@ -36,9 +36,10 @@ class RCM_Drawer(Drawer):
     FONT_COLOR_MIDDLE_LINE = 2#YELLOW
     FONT_COLOR_SAT  = 2 #YELLOW
 
-    def __init__(self):
+    def __init__(self, rotate_180=False):
         #PIL images
         self.newImg_from_template()
+        self.rotate_180 = rotate_180
         self.txt_lines = []
         self.txt_satellite = ""
         self.font_lines = ImageFont.truetype(self.FONT_FILE_LINES, self.FONT_SIZE_LINES)
@@ -54,6 +55,8 @@ class RCM_Drawer(Drawer):
     def set_image_Inky(self, save_img_path=None):
         inky_display = InkyPHAT(self.COLOR)
         inky_display.set_border(inky_display.BLACK)
+        if self.rotate_180:
+            self.img = self.img.transpose(Image.ROTATE_180)
         inky_display.set_image(self.img)
         inky_display.show()
         if save_img_path is not None:

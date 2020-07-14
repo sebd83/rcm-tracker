@@ -60,9 +60,11 @@ if __name__ == '__main__':
                     help='to make display loop indefinitely between the specified sats')
     parser.add_argument('-t', '--time_delay', type=int, default=15,
                     help='specify the number of seconds to pause between display updates')
+    parser.add_argument('--rotate_180', action='store_true', default=False,
+                    help='to rotate display by 180 degrees')
     args = parser.parse_args()
 
-    rcm_d = RCM_Drawer() #class to draw on inky
+    rcm_d = RCM_Drawer(args.rotate_180) #class to draw on inky
     observer, obs_timezone = setObserverMontreal()
 
     loop_once = True
