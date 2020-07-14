@@ -50,15 +50,15 @@ if __name__ == '__main__':
     # a global flow
 
     parser = argparse.ArgumentParser(description='RCM Tracker display on inky pHAT')
-    parser.add_argument('-r1', '--rcm1', metavar='rcm1', action='store_true', default=False,
+    parser.add_argument('-r1', '--rcm1', action='store_true', default=False,
                     help='to specify if RCM-1 should be calculated and displayed')
-    parser.add_argument('-r2', '--rcm2', metavar='rcm2', action='store_true', default=False,
+    parser.add_argument('-r2', '--rcm2', action='store_true', default=False,
                     help='to specify if RCM-2 should be calculated and displayed')
-    parser.add_argument('-r3', '--rcm3', metavar='rcm3', action='store_true', default=False,
+    parser.add_argument('-r3', '--rcm3', action='store_true', default=False,
                     help='to specify if RCM-3 should be calculated and displayed')
-    parser.add_argument('-l', '--loop', metavar='loop_display', action='store_true', default=False,
+    parser.add_argument('-l', '--loop', action='store_true', default=False,
                     help='to make display loop indefinitely between the specified sats')
-    parser.add_argument('-t', '--time_delay', metavar='time_delay', type='int', default=15,
+    parser.add_argument('-t', '--time_delay', type='int', default=15,
                     help='specify the number of seconds to pause between display updates')
     args = parser.parse_args()
 
