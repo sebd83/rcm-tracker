@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
     loop_once = True
 
-    while loop_once or args.loop_display:
+    while loop_once or args.loop:
 
         loop_once = False
 
