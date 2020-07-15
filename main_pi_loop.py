@@ -48,6 +48,9 @@ if __name__ == '__main__':
 
     # This module combines both the rcm_tracker logic and the inky_rcm_pass into
     # a global flow
+    if len(sys.argv) <= 1:
+        print("No arguments were provided. Run with -h to see options.")
+        sys.exit(0)
 
     parser = argparse.ArgumentParser(description='RCM Tracker display on inky pHAT')
     parser.add_argument('-r1', '--rcm1', action='store_true', default=False,
