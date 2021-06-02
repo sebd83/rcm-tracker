@@ -14,4 +14,4 @@ scipy==1.5.1
 six==1.15.0
 spidev==3.5
 smbus2==0.3.0
-urllib3==1.25.9
+urllib3==1.26.5
